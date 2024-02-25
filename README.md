@@ -1,12 +1,12 @@
-<h1 align="center">LiteCache 🪀</h1>
+<h1 align="center">YoYo 🪀</h1>
 
-<h3 align="center"><b>For Your Yo-Yo Data Flow</b></h3>
+<h3 align="center"><b>For Your YoYo Data Flow</b></h3>
 
-[![liteCacheCICD](https://github.com/DNYFZR/liteCache/actions/workflows/build.yaml/badge.svg)](https://github.com/DNYFZR/liteCache/actions/workflows/build.yaml)
+[![YoYoCICD](https://github.com/DNYFZR/YoYo/actions/workflows/build.yaml/badge.svg)](https://github.com/DNYFZR/YoYo/actions/workflows/build.yaml)
 
-LiteCache provides serverless data caching services, with backup functionality, inside a light weight & powerful API.
+YoYo provides serverless data caching services, with backup functionality, inside a light weight & powerful API.
 
-There are minimal dependencies, LiteCache only requires :
+There are minimal dependencies, YoYo only requires :
 
 - Polars (no mandatory dependencies)
 - DuckDB (no mandatory dependencies)
@@ -17,7 +17,7 @@ It was developed to serve as a low overhead backend API cache manager. Users hav
 ## API Reference
 
 ```py
-from lite_cache import Cache
+from yoyo import Cache
 
 # Initialise a cache object model
 cache = Cache(
