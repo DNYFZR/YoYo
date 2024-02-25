@@ -2,6 +2,8 @@
 
 <h3 align="center"><b>For Your Yo-Yo Data Flow</b></h3>
 
+[![liteCacheCICD](https://github.com/DNYFZR/liteCache/actions/workflows/build.yaml/badge.svg)](https://github.com/DNYFZR/liteCache/actions/workflows/build.yaml)
+
 LiteCache provides serverless data caching services, with backup functionality, inside a light weight & powerful API.
 
 There are minimal dependencies, LiteCache only requires :
@@ -40,10 +42,10 @@ cache.list_all_tables() # without schema information
 
 cache.list_schema_tables() # with schema information
 
-# Create / update a table in the cache
+# Create / update a table in the cache with DuckDB readable in-memory data
 cache.update(
   table = "post_delta_query",
-  source = "api_data", # api_data is an in-memory table which DuckDB can interact with (see DuckDB docs for current list) 
+  source = "api_data", 
 ) 
 
 # Backup the cache to cache directory 
@@ -62,7 +64,7 @@ cache.clear(schema = "custom-schema", table = "special-table") # specific schema
 
 cache.clear(schema = "custom-schema") # entire schema
 
-cache.clear(table = "special-table") # specific table table in default schema ("tmp")
+cache.clear(table = "special-table") # specific table table in default schema ("store")
 
 
 ```
