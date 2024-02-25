@@ -57,6 +57,7 @@ jobs:
   
     
   Build:
+    needs: Test
     runs-on: 'ubuntu-latest'
 
     steps:
