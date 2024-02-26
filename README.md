@@ -11,11 +11,15 @@
 - Users have access to underlying DuckDB functionaliy via the ```YoYo().connect()``` method.
 - Users also have access to the power of Rust via Polars, along side the main caching mechanisms it's involved in.
 
+<br>
+
 **🪀 YoYo's string has minimal dependencies :**
 
 - Polars (no mandatory dependencies)
 - DuckDB (no mandatory dependencies)
 - PyArrow (requires NumPy)
+
+<br>
 
 **🪀 YoYo's Trick Deck :**
 
