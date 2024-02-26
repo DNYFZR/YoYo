@@ -1,18 +1,20 @@
-# Lite Cache Cache Manager
-
 import os, duckdb, polars as pl
 
-__version__ = "0.2.2"
+__status__ = "pre-alpha"
+__version__ = "0.3.1"
 
-class Cache:
+class YoYo:
     """ 
-    Manage a Serverless Cache DB (DuckDB)
+    Serverless Cache DB Management
 
-    #### Init Params : 
+    #### Parameters : 
     - schema (optional) : user can set a string or use the default 'store'
     - cache_dir (optional) : user can set a string or use the default 'tmp' 
       within the current working directory
     """
+    __status__ = __status__
+    __version__ = __version__
+
     def __init__(self, **kwargs):
         cache_dir = "tmp"
         os.makedirs(cache_dir, exist_ok=True)
@@ -21,11 +23,9 @@ class Cache:
         self.db = f"""{cache_dir if "cache_dir" not in kwargs.keys() else kwargs["cache_dir"]}/cache.duckdb"""
         self.schema = "store" if "schema" not in kwargs.keys() else kwargs["schema"]
         
-
     def connect(self):
         """Connect to the cache DB"""
         return duckdb.connect(self.db)
-
 
     def info(self):
         """Get the database structure"""
@@ -33,7 +33,6 @@ class Cache:
         res = conn.sql("DESCRIBE;").pl().to_dicts()
         conn.close()
         return res
-
 
     def check(self, table:str):
         """Check if a table exists in the cache"""            
@@ -49,14 +48,12 @@ class Cache:
         else:
             return False
 
-
     def list_all_tables(self):
         """Get a list of tables in the cache (no schema info)"""
         conn = self.connect()
         res = conn.sql("DESCRIBE;").pl().select("name").to_series().to_list()
         conn.close()
         return res
-
 
     def list_schema_tables(self):
         """Get a list of tables in the cache (schema.table)"""
@@ -66,7 +63,6 @@ class Cache:
             ).alias("tmp")).select("tmp").to_series().to_list()
         conn.close()
         return res
-
 
     def update(self, table:str, source:str):
         """Create or update a table using the name of a DuckDB readable source"""
@@ -84,13 +80,12 @@ class Cache:
         conn.close()  
         return{200: f"update successful : {table}"}
 
-
     def backup(self, **kwargs):
         """
         Export the cache to a Parquet archive
         
         Users can optionally set their own 'backup' path string as a kwarg
-        or use the default 'lite_cache/backup' within the current working directory.
+        or use the default 'tmp/backup' within the current working directory.
         """
         self.cache_dir = self.cache_dir if "cache_dir" not in kwargs.keys() else kwargs["cache_dir"]
         os.makedirs(self.cache_dir, exist_ok=True)
@@ -99,7 +94,6 @@ class Cache:
         conn.execute(f"EXPORT DATABASE '{self.cache_dir}' (FORMAT PARQUET);").close()
     
         return {200: "export completed"}
-
     
     def erase_backup(self):
         """Remove the cache backup files"""
@@ -115,8 +109,7 @@ class Cache:
 
         else:
             return {200 : "cache backup already wiped"}
-        
-    
+         
     def erase(self):
         """Remove the cache file"""
         cache_path = f"{os.getcwd()}/{self.db}"
@@ -128,7 +121,6 @@ class Cache:
         else:
             return {200 : "cache already wiped"}
         
-    
     def clear(self, schema:str = None, table:str = None):
         """Clear the duckDB cache"""
         # User can clear a specific table or entire schema

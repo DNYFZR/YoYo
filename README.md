@@ -1,26 +1,37 @@
-<h1 align="center">YoYo 🪀</h1>
+<h1 align="center">🪀 YoYo 🪀</h1>
 
-<h3 align="center"><b>For Your YoYo Data Flow</b></h3>
+<h3 align="center"><b>For Your YoYo Data Flow...</b></h3>
 
 [![YoYoCICD](https://github.com/DNYFZR/YoYo/actions/workflows/build.yaml/badge.svg)](https://github.com/DNYFZR/YoYo/actions/workflows/build.yaml)
 
-YoYo provides serverless data caching services, with backup functionality, inside a light weight & powerful API.
+**🪀YoYo Provides serverless caching services with backup functionality:**
 
-There are minimal dependencies, YoYo only requires :
+- Initially developed to serve as a low cost & minimal overhead API cache manager.
+- Wrapped inside a light weight & powerful API.
+- Users have access to underlying DuckDB functionaliy via the ```YoYo().connect()``` method.
+- Users also have access to the power of Rust via Polars, along side the main caching mechanisms it's involved in.
+
+<br>
+
+**🪀 YoYo's string has minimal dependencies :**
 
 - Polars (no mandatory dependencies)
 - DuckDB (no mandatory dependencies)
-- PyArrow (also installs NumPy)
+- PyArrow (requires NumPy)
 
-It was developed to serve as a low overhead backend API cache manager. Users have access the cache's underlying DuckDB functionaliy via the ```Cache().connect()``` method, which returns a connection with access to all inherrited DuckDB functionality, and Polars brings the power of Rust for data processing along side the main caching mechanisms.
+<br>
 
-## API Reference
+**🪀 YoYo's Trick Deck :**
+
+In time, more detail will be added...
+
+For now here's the high level reference :
 
 ```py
-from yoyo import Cache
+from yoyo import YoYo
 
 # Initialise a cache object model
-cache = Cache(
+cache = YoYo(
   schema = "custom_schema" # optional : default = "store"
   cache_dir = "cache-data" # optional : default = "tmp"
 )
