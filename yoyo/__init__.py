@@ -19,9 +19,11 @@ class YoYo:
         cache_dir = "tmp"
         os.makedirs(cache_dir, exist_ok=True)
         
-        self.cache_dir = f"""{cache_dir if "cache_dir" not in kwargs.keys() else kwargs["cache_dir"]}/backup/"""
-        self.db = f"""{cache_dir if "cache_dir" not in kwargs.keys() else kwargs["cache_dir"]}/cache.duckdb"""
-        self.schema = "store" if "schema" not in kwargs.keys() else kwargs["schema"]
+        self.cache_dir = f"""{os.getcwd()}/{"/tmp" if "cache_dir" not in kwargs.keys() else kwargs["cache_dir"]}/backup/"""
+        self.schema = "api_cache" if "schema" not in kwargs.keys() else kwargs["schema"]
+        self.db = f"""{os.getcwd()}/{"/tmp" if "cache_dir" not in kwargs.keys() else kwargs["cache_dir"]}/{kwargs["db"] if "db" in kwargs.keys() else "cache"}.duckdb"""
+
+        self.connect().execute(f"CREATE SCHEMA IF NOT EXISTS {self.schema};")
         
     def connect(self):
         """Connect to the cache DB"""
