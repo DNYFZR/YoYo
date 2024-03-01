@@ -92,7 +92,7 @@ jobs:
         else
           echo "is_pr=false" >> "$GITHUB_OUTPUT"
         fi
-        echo "$is_pr"
+        echo "Is PR : ${{ steps.check_build.outputs.is_pr }}"
 
     - name: Extract version
       id: get_version
