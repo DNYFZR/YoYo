@@ -1,7 +1,7 @@
 import os, duckdb, polars as pl
 
 __status__ = "alpha"
-__version__ = "0.1.3"
+__version__ = "0.1.4"
 
 class YoYo:
     """ 

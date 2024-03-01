@@ -84,6 +84,10 @@ jobs:
       run: python -m build --wheel 
 
     # Artifacts
+    - name: Get Current Pull Request
+      id: pr-check
+      uses: 8BitJonny/gh-get-current-pr@3.0.0
+
     - name: Extract version
       id: get_version
       run: |
@@ -97,7 +101,7 @@ jobs:
         echo "current build : $VERSION"
         
     - name: Create release
-      if: ${{ github.event_name }} != "pull_request"
+      if: ${{ steps.pr-check.outputs.number }} != 'null'
       uses: ncipollo/release-action@v1.10.0
       with:
         tag: "${{ steps.get_version.outputs.version }}"
