@@ -88,9 +88,9 @@ jobs:
       id: check_build
       run: |
         if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-          echo "is_pr=true" >> GITHUB_OUTPUT
+          echo "is_pr=true" >> "$GITHUB_OUTPUT"
         else
-          echo "is_pr=false" >> GITHUB_OUTPUT
+          echo "is_pr=false" >> "$GITHUB_OUTPUT"
         fi
 
     - name: Extract version
@@ -106,7 +106,7 @@ jobs:
         print(match.group(1) if match else '')
         EOF
         )
-        echo "version=$VERSION" >> GITHUB_OUTPUT
+        echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
     - name: Create release
       uses: ncipollo/release-action@v1.10.0
