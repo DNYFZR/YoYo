@@ -98,7 +98,8 @@ class TestCache:
   def test_backup(self, test_case):
     """Test the cache backup method creates a backup"""
     cache = YoYo(db=test_case["db"])
-    cache.backup(backup=test_case["backup"])
+    cache.update(test_case["table"], test_case["source"])
+    cache.backup(cache_dir=f"{os.getcwd()}/{test_case["backup"]}")
     _, _, backup_files = list(os.walk(f"{os.getcwd()}/{test_case["backup"]}"))[0]
 
     if len(backup_files) == 0:
