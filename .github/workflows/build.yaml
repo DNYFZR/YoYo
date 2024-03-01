@@ -99,8 +99,8 @@ jobs:
       run: |
         echo "Getting version from __init__.py..."
         VERSION=$(python <<EOF
-        __version__
-        print(__version__)
+        import yoyo
+        print(yoyo.__version__)
         EOF
         )
         echo "version=$VERSION" >> "$GITHUB_OUTPUT"
