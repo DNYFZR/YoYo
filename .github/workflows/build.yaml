@@ -95,7 +95,7 @@ jobs:
 
     - name: Extract version
       id: get_version
-      if: ${{ steps.check_build.outputs.isPR }} == 'true'
+      if: ${{ steps.check_build.outputs.isPR }} == 'false'
       run: |
         echo "Getting version from __init__.py..."
         VERSION=$(python <<EOF
@@ -108,7 +108,7 @@ jobs:
         
     - name: Create release
       uses: ncipollo/release-action@v1.10.0
-      if: ${{ steps.check_build.outputs.is_pr }} == 'true'
+      if: ${{ steps.check_build.outputs.is_pr }} == 'false'
       with:
         tag: "${{ steps.get_version.outputs.version }}"
         allowUpdates: true
