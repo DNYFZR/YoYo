@@ -98,11 +98,9 @@ class YoYo:
         return {200: "export completed"}
     
     def erase_backup(self):
-        """Remove the cache backup files"""
-        cache_path = f"{os.getcwd()}/{self.cache_dir}"
-        
-        if os.path.exists(cache_path):
-          _, _, files = list(os.walk(cache_path))[0]
+        """Remove the cache backup files"""       
+        if os.path.exists(f"{os.getcwd()}/{self.cache_dir}"):
+          _, _, files = list(os.walk(f"{os.getcwd()}/{self.cache_dir}"))[0]
 
           for file in files:
               os.remove(f"{os.getcwd()}/{self.cache_dir}/{file}")
