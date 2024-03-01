@@ -10,7 +10,7 @@ on:
       - tests/**
       - .github/workflows/**
 
-  push: # if push to main is not disabled
+  push: 
    branches:
       - main
    paths:
@@ -84,15 +84,26 @@ jobs:
       run: python -m build --wheel 
 
     # Artifacts
-    - name: Get version
+    - name: Check build reason
+      id: check_build
+      run: |
+        if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+          echo "::set-output name=is_pr::true"
+        else
+          echo "::set-output name=is_pr::false"
+        fi
+
+    - name: Get build version
       id: get_version
+      if: steps.check_pr.outputs.is_pr == 'true'
       run: |
         echo "Getting version from setup.cfg..."
         VERSION=$(python -c "import configparser; config = configparser.ConfigParser(); config.read('setup.cfg'); print(config['metadata']['version'])")
         echo "::set-output name=version::$VERSION"
 
-    - name: Create Release
+    - name: Create release
       uses: ncipollo/release-action@v1.10.0
+      if: steps.check_pr.outputs.is_pr == 'true'
       with:
         tag: ${{ steps.get_version.outputs.version }}
         allowUpdates: true
