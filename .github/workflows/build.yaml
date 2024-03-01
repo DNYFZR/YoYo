@@ -83,11 +83,44 @@ jobs:
     - name: Build distribution
       run: python -m build --wheel 
 
-    # Publish artifacts
+    # Artifacts
+    - name: Get version
+      id: get_version
+      run: |
+        echo "Getting version from setup.cfg..."
+        VERSION=$(python -c "import configparser; config = configparser.ConfigParser(); config.read('setup.cfg'); print(config['metadata']['version'])")
+        echo "::set-output name=version::$VERSION"
+
     - name: Create Release
       uses: ncipollo/release-action@v1.10.0
       with:
-        tag: current-build
+        tag: ${{ steps.get_version.outputs.version }}
         allowUpdates: true
         replacesArtifacts: true
 
+
+# PYPI API Key not yet configured
+  # Release:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Check out code
+  #       uses: actions/checkout@v2
+        
+  #     - name: Set up Python
+  #       uses: actions/setup-python@v2
+  #       with:
+  #         python-version: 3.12
+
+  #     - name: Install dependencies
+  #       run: |
+  #         python -m pip install --upgrade pip
+  #         pip install setuptools wheel twine
+        
+  #     - name: Build and publish
+  #       env:
+  #         TWINE_USERNAME: __token__
+  #         TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+  #       run: |
+  #         python setup.py sdist bdist_wheel
+  #         twine upload dist/*
+        
