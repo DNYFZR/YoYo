@@ -85,7 +85,7 @@ jobs:
 
     # Artifacts
     - name: Get Current Pull Request
-      id: pr-check
+      id: prCheck
       uses: 8BitJonny/gh-get-current-pr@3.0.0
 
     - name: Extract version
@@ -99,10 +99,10 @@ jobs:
         )
         echo "version=$VERSION" >> "$GITHUB_OUTPUT"
         echo "current build : $VERSION"
-        echo "PR : ${{ steps.pr-check.outputs.number }}"
+        echo "PR : ${{ needs.prCheck.outputs.number }}"
         
     - name: Create release
-      if: ${{ steps.pr-check.outputs.number }} != 'null'
+      if: ${{ needs.prCheck.outputs.number }} != 'null'
       uses: ncipollo/release-action@v1.10.0
       with:
         tag: "${{ steps.get_version.outputs.version }}"
