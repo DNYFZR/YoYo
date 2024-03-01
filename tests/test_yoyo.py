@@ -1,7 +1,7 @@
 # YoYo Cache Testing Module
 
 import os, sys, pytest, duckdb, polars as pl
-sys.path.append("yoyo")
+sys.path.append("../")
 
 from yoyo import YoYo
 
