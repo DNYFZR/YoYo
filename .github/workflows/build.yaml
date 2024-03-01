@@ -88,13 +88,14 @@ jobs:
       id: check_build
       run: |
         if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-          echo "::set-output name=is_pr::true"
+          echo "is_pr=true" >> GITHUB_OUTPUT
         else
-          echo "::set-output name=is_pr::false"
+          echo "is_pr=false" >> GITHUB_OUTPUT
         fi
 
     - name: Extract version
       id: get_version
+      if: steps.check_pr.outputs.is_pr == 'true'
       run: |
         echo "Getting version from __init__.py..."
         VERSION=$(python <<EOF
@@ -105,7 +106,7 @@ jobs:
         print(match.group(1) if match else '')
         EOF
         )
-        echo "::set-output name=version::$VERSION"
+        echo "version=$VERSION" >> GITHUB_OUTPUT
 
     - name: Create release
       uses: ncipollo/release-action@v1.10.0
@@ -116,28 +117,29 @@ jobs:
         replacesArtifacts: true
 
 
-# PYPI API Key not yet configured
-  # Release:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Check out code
-  #       uses: actions/checkout@v2
+# # PYPI API Key not yet configured
+#   Release:
+#     needs: Build  
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Check out code
+#         uses: actions/checkout@v2
         
-  #     - name: Set up Python
-  #       uses: actions/setup-python@v2
-  #       with:
-  #         python-version: 3.12
+#       - name: Set up Python
+#         uses: actions/setup-python@v2
+#         with:
+#           python-version: 3.12
 
-  #     - name: Install dependencies
-  #       run: |
-  #         python -m pip install --upgrade pip
-  #         pip install setuptools wheel twine
+#       - name: Install dependencies
+#         run: |
+#           python -m pip install --upgrade pip
+#           pip install setuptools wheel twine
         
-  #     - name: Build and publish
-  #       env:
-  #         TWINE_USERNAME: __token__
-  #         TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-  #       run: |
-  #         python setup.py sdist bdist_wheel
-  #         twine upload dist/*
+#       - name: Build and publish
+#         env:
+#           TWINE_USERNAME: __token__
+#           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+#         run: |
+#           python setup.py sdist bdist_wheel
+#           twine upload dist/*
         
