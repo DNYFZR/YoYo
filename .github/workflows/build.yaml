@@ -99,7 +99,7 @@ jobs:
         echo "Getting version from __init__.py..."
         VERSION=$(python <<EOF
         import re
-        with open('../../yoyo/__init__.py', 'r') as file:
+        with open('yoyo/__init__.py', 'r') as file:
             data = file.read()
         match = re.search(r'__version__ = \'\"[\'\"]', data)
         print(match.group(1) if match else '')
