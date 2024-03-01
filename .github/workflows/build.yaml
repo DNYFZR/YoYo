@@ -104,7 +104,7 @@ jobs:
         EOF
         )
         echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-        echo"current build : $VERSION"
+        echo "current build : $VERSION"
         
     - name: Create release
       uses: ncipollo/release-action@v1.10.0
