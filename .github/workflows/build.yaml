@@ -59,10 +59,7 @@ jobs:
   Build:
     needs: Test
     runs-on: 'ubuntu-latest'
-    outputs:
-      isPR: ${{ steps.check_build.outputs.is_pr }}
-      VERSION: ${{ steps.get_version.outputs.version }}
-
+    
     steps:
     - name: Checkout repo content
       uses: actions/checkout@v2 
@@ -102,22 +99,12 @@ jobs:
       run: |
         echo "Getting version from __init__.py..."
         VERSION=$(python <<EOF
-        import re
-        with open('yoyo/__init__.py', 'r') as file:
-            data = file.read()
-        match = re.search(r"__version__ = '\"['\"]", data)
-        print(match.group(1) if match else '')
+        __version__
+        print(__version__)
         EOF
         )
         echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-        
-    - name: test
-      run: |
-        echo ${{ needs.Build.outputs.isPR }}
-        echo "${{ needs.Build.outputs.isPR }}"
-        echo echo ${{ needs.Build.outputs.VERSION }}
-        echo ${{ steps.get_version.outputs.version }}
-        echo ${{ steps.check_build.outputs.is_pr}}
+        echo"current build : $VERSION"
         
     - name: Create release
       uses: ncipollo/release-action@v1.10.0
