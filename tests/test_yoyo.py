@@ -1,8 +1,6 @@
 # YoYo Cache Testing Module
 
-import os, sys, pytest, duckdb, polars as pl
-sys.path.append("../")
-
+import os, pytest, duckdb, polars as pl
 from yoyo import YoYo
 
 test_case = {
