@@ -99,6 +99,7 @@ jobs:
         )
         echo "version=$VERSION" >> "$GITHUB_OUTPUT"
         echo "current build : $VERSION"
+        echo "PR : ${{ steps.pr-check.outputs.number }}"
         
     - name: Create release
       if: ${{ steps.pr-check.outputs.number }} != 'null'
