@@ -1,8 +1,6 @@
 # YoYo Cache Testing Module
 
-import os, sys, pytest, duckdb, polars as pl
-sys.path.append("src")
-
+import os, pytest, duckdb, polars as pl
 from yoyo import YoYo
 
 test_case = {
@@ -98,7 +96,8 @@ class TestCache:
   def test_backup(self, test_case):
     """Test the cache backup method creates a backup"""
     cache = YoYo(db=test_case["db"])
-    cache.backup(backup=test_case["backup"])
+    cache.update(test_case["table"], test_case["source"])
+    cache.backup(cache_dir=f"{os.getcwd()}/{test_case["backup"]}")
     _, _, backup_files = list(os.walk(f"{os.getcwd()}/{test_case["backup"]}"))[0]
 
     if len(backup_files) == 0:
@@ -117,8 +116,8 @@ class TestCache:
   def test_erase_backup(self, test_case):
     """Test the cache erase backup method removes backup files"""
     cache = YoYo(db=test_case["db"])
-    cache.backup(backup=test_case["backup"])
-    _, _, backup_files = list(os.walk(test_case["backup"]))[0]
+    cache.backup()
+    _, _, backup_files = list(os.walk(cache.cache_dir))[0]
     cache.erase_backup()
 
     if any([os.path.exists(i) for i in backup_files]):

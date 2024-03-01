@@ -1,5 +1,5 @@
 # GitHub Actions Pipeline
-name: 'yoyoCICD'
+name: 'YoYoCICD'
 
 on:
   pull_request:

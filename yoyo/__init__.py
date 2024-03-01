@@ -19,9 +19,11 @@ class YoYo:
         cache_dir = "tmp"
         os.makedirs(cache_dir, exist_ok=True)
         
-        self.cache_dir = f"""{cache_dir if "cache_dir" not in kwargs.keys() else kwargs["cache_dir"]}/backup/"""
-        self.db = f"""{cache_dir if "cache_dir" not in kwargs.keys() else kwargs["cache_dir"]}/cache.duckdb"""
-        self.schema = "store" if "schema" not in kwargs.keys() else kwargs["schema"]
+        self.cache_dir = f"""{os.getcwd()}/{"/tmp" if "cache_dir" not in kwargs.keys() else kwargs["cache_dir"]}/backup/"""
+        self.schema = "api_cache" if "schema" not in kwargs.keys() else kwargs["schema"]
+        self.db = f"""{os.getcwd()}/{"/tmp" if "cache_dir" not in kwargs.keys() else kwargs["cache_dir"]}/{kwargs["db"] if "db" in kwargs.keys() else "cache"}.duckdb"""
+
+        self.connect().execute(f"CREATE SCHEMA IF NOT EXISTS {self.schema};")
         
     def connect(self):
         """Connect to the cache DB"""
@@ -96,14 +98,12 @@ class YoYo:
         return {200: "export completed"}
     
     def erase_backup(self):
-        """Remove the cache backup files"""
-        cache_path = f"{os.getcwd()}/{self.cache_dir}"
-        
-        if os.path.exists(cache_path):
-          _, _, files = list(os.walk(cache_path))[0]
+        """Remove the cache backup files"""       
+        if os.path.exists(self.cache_dir):
+          _, _, files = list(os.walk(self.cache_dir))[0]
 
           for file in files:
-              os.remove(f"{os.getcwd()}/{self.cache_dir}/{file}")
+              os.remove(f"{self.cache_dir}/{file}")
 
           return {200 : "cache backup wiped"}
 
@@ -112,10 +112,8 @@ class YoYo:
          
     def erase(self):
         """Remove the cache file"""
-        cache_path = f"{os.getcwd()}/{self.db}"
-        
-        if os.path.exists(cache_path):
-          os.remove(cache_path)
+        if os.path.exists(self.db):
+          os.remove(self.db)
           return {200 : "cache wiped"}
 
         else:
