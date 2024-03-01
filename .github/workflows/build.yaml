@@ -107,6 +107,8 @@ jobs:
         EOF
         )
         echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+        echo "Version = $VERSION"
+        echo " Version = ${{ steps.get_version.outputs.version }}"
 
     - name: Create release
       uses: ncipollo/release-action@v1.10.0
