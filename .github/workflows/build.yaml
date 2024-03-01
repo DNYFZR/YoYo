@@ -95,7 +95,7 @@ jobs:
 
     - name: Extract version
       id: get_version
-      if: ${{ steps.check_build.outputs.isPR }} == 'false'
+      if: ${{ steps.check_build.outputs.is_pr }} == 'false'
       run: |
         echo "Getting version from __init__.py..."
         VERSION=$(python <<EOF
