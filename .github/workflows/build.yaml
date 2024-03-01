@@ -84,19 +84,9 @@ jobs:
       run: python -m build --wheel 
 
     # Artifacts
-    - name: Check build reason
-      id: check_build
-      run: |
-        if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-          echo "is_pr=true" >> "$GITHUB_OUTPUT"
-        else
-          echo "is_pr=false" >> "$GITHUB_OUTPUT"
-        fi
-        echo "Is PR : ${{ steps.check_build.outputs.is_pr }}"
-
     - name: Extract version
       id: get_version
-      if: ${{ steps.check_build.outputs.is_pr }} == 'false'
+      if: ${{ github.event_name }} != pull_request
       run: |
         echo "Getting version from __init__.py..."
         VERSION=$(python <<EOF
@@ -109,7 +99,7 @@ jobs:
         
     - name: Create release
       uses: ncipollo/release-action@v1.10.0
-      if: ${{ steps.check_build.outputs.is_pr }} == 'false'
+      if:  ${{ github.event_name }} != pull_request
       with:
         tag: "${{ steps.get_version.outputs.version }}"
         allowUpdates: true
