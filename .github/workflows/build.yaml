@@ -96,7 +96,15 @@ jobs:
     - name: Extract version
       id: get_version
       run: |
-        VERSION=$(python -c "import re; with open('../../yoyo/__init__.py', 'r') as file: data = file.read(); match = re.search(r'__version__ = \'\"[\'\"]', data); print(match.group(1) if match else '')")
+        echo "Getting version from __init__.py..."
+        VERSION=$(python <<EOF
+        import re
+        with open('../../yoyo/__init__.py', 'r') as file:
+            data = file.read()
+        match = re.search(r'__version__ = \'\"[\'\"]', data)
+        print(match.group(1) if match else '')
+        EOF
+        )
         echo "::set-output name=version::$VERSION"
 
     - name: Create release
