@@ -1,7 +1,5 @@
 <h1 align="center">🪀 YoYo 🪀</h1>
 
-<h3 align="center"><b>For Your YoYo Data Flow...</b></h3>
-
 [![YoYoCICD](https://github.com/DNYFZR/YoYo/actions/workflows/build.yaml/badge.svg)](https://github.com/DNYFZR/YoYo/actions/workflows/build.yaml)
 
 **🪀YoYo Provides serverless caching services with backup functionality:**
@@ -10,6 +8,7 @@
 - Wrapped inside a light weight & powerful API.
 - Users have access to underlying DuckDB functionaliy via the ```YoYo().connect()``` method.
 - Users also have access to the power of Rust via Polars, along side the main caching mechanisms it's involved in.
+- The trick deck: [API Reference](/docs/API.md)
 
 <br>
 
@@ -17,12 +16,8 @@
 
 - Polars (no mandatory dependencies)
 - DuckDB (no mandatory dependencies)
-- PyArrow (requires NumPy)
+- PyArrow (no mandatory dependencies)
 
 <br>
-
-**🪀 YoYo's Trick Deck :**
-
-In time, more detail will be added... For now here's what we've got : [API Reference](/docs/API.md)
 
 ---
