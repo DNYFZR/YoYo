@@ -1,6 +1,6 @@
 <h1 align="center">🪀 YoYo 🪀</h1>
 
-<h3 align="center"><b>For Your YoYo Data Flow...</b></h3>
+<h3 align="center"><b>API Reference</b></h3>
 
 ```py
 from yoyo import YoYo
@@ -14,9 +14,6 @@ cache = YoYo(
 # Get a connection to the cache
 conn = cache.connect()
 
-# Query the cache
-conn.execute("SELECT * FROM store.perfect_data LIMIT 1000;").pl() # returns Polars DataFrame
-
 # Get the information schema
 cache.info()
 
@@ -29,10 +26,18 @@ cache.list_all_tables() # without schema information
 cache.list_schema_tables() # with schema information
 
 # Create / update a table in the cache with DuckDB readable in-memory data
+api_data = pl.DataFrame(...)
+
 cache.update(
   table = "post_delta_query",
-  source = "api_data", 
+  source = api_data, 
 ) 
+
+# Get a table in the cache
+cache.get(table = "post_delta_query")
+
+# Query a cache table
+cache.get(query = "SELECT * FROM post_delta_query LIMIT 10;")
 
 # Backup the cache to cache directory 
 cache.backup(
