@@ -5,7 +5,7 @@ def sync_env(path:str):
     """Install Packages From a Config File (pyproject.toml)"""
     try:
         # Update package manager
-        subprocess.check_call([sys.executable, '-m', 'pip', 'install', '--upgrade', 'pip'])
+        # subprocess.check_call([sys.executable, '-m', 'pip', 'install', '--upgrade', 'pip'])
 
         # Install project dependencies
         
