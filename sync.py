@@ -24,4 +24,4 @@ def sync_env(path:str):
     return True
 
 if __name__ == "__main__":
-    sync_env('./pyproject.toml')
+    sync_env('pyproject.toml')
