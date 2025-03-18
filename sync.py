@@ -11,7 +11,6 @@ def sync_env(path:str):
         
         build = open(path).read().split("dependencies = [")[1].split("]\n")[0].split(",")
         build = [i.strip().strip('"') for i in build]
-        print(build)
         [subprocess.check_call([sys.executable, '-m', 'pip', 'install', package]) for package in build if len(package) > 0]
                 
         # Install test dependencies
