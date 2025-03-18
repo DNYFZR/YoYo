@@ -1,7 +1,7 @@
 import os, duckdb, polars as pl
 
-__status__ = "alpha"
-__version__ = "0.1.4"
+__status__ = "production"
+__version__ = "1.0.1"
 
 class YoYo:
     """ 
@@ -66,7 +66,15 @@ class YoYo:
         conn.close()
         return res
 
-    def update(self, table:str, source:str):
+    def get(self, table:str=None, query:str=None):
+        if query:
+            return self.connect().execute(query).pl()
+        elif table:
+            return self.connect().execute(f"SELECT * FROM {self.schema}.{table};").pl()
+        else: 
+            raise AttributeError("Please either specify a table name or provide a query string")
+        
+    def update(self, table:str, source:pl.DataFrame|str):
         """Create or update a table using the name of a DuckDB readable source"""
         
         # if schema name provided
@@ -78,7 +86,10 @@ class YoYo:
             table = f"{self.schema}.{table}"
 
         conn = self.connect()
-        conn.sql(f"""CREATE OR REPLACE TABLE {table} AS SELECT * FROM {source};""")
+        if isinstance(source, str):
+            conn.sql(f"""CREATE OR REPLACE TABLE {table} AS SELECT * FROM '{source}';""")
+        else:
+            conn.sql(f"""CREATE OR REPLACE TABLE {table} AS SELECT * FROM source;""")
         conn.close()  
         return{200: f"update successful : {table}"}
 
@@ -137,3 +148,4 @@ class YoYo:
             return {400 : f"bad request: {schema}.{table}"}
 
         return {200 : "cache cleared"}
+
